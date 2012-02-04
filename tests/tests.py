@@ -128,8 +128,15 @@ class GettextTestCase(unittest.TestCase):
         app = flask.Flask(__name__)
         b = babel.Babel(app, default_locale='de_DE')
 
+        # without context
+        assert gettext(u'Hello %(name)s!', name='Peter') == u'Hello Peter!'
+        assert gettext(u'Hello %(name)s!') == 'Hello %(name)s!'
+        assert ngettext(u'%(num)s Apple', u'%(num)s Apples', 3) == u'3 Apples'
+        assert ngettext(u'%(num)s Apple', u'%(num)s Apples', 1) == u'1 Apple'
+
         with app.test_request_context():
             assert gettext(u'Hello %(name)s!', name='Peter') == 'Hallo Peter!'
+            assert gettext(u'Hello %(name)s!') == 'Hallo %(name)s!'
             assert ngettext(u'%(num)s Apple', u'%(num)s Apples', 3) == u'3 Äpfel'
             assert ngettext(u'%(num)s Apple', u'%(num)s Apples', 1) == u'1 Apfel'
 

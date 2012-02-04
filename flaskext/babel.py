@@ -384,7 +384,7 @@ def _date_format(formatter, obj, format, rebase, **extra):
 
 def format_number(number):
     """Return the given number formatted for the locale in request
-    
+
     :param number: the number to format
     :return: the formatted number
     :rtype: unicode
@@ -454,9 +454,9 @@ def gettext(string, **variables):
         gettext(u'Hello %(name)s!', name='World')
     """
     t = get_translations()
-    if t is None:
-        return string % variables
-    return t.ugettext(string) % variables
+    if t is not None:
+        string = t.ugettext(string)
+    return string % variables if len(variables) else string
 _ = gettext
 
 
